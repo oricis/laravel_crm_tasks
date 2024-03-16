@@ -1,5 +1,6 @@
 <?php
 
+use App\Modules\CrmTasks\Http\Controllers\CrmHomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,7 +23,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get(
+        '/dashboard',
+        [CrmHomeController::class, 'home']
+    )->name('dashboard');
 });
