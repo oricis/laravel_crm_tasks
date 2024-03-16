@@ -1,4 +1,4 @@
-# Task
+# CRM Tasks
 
 This is a small conceptual test, based on [Laravel](https://laravel.com/docs/),
 [Liveware](https://laravel.com/docs/10.x/blade#supercharging-blade-with-livewire)
@@ -9,7 +9,6 @@ where users can work on "recurrent tasks".
 
 The users can handle ***tasks groups***:
 - **Create** new task groups.
-
 
 The users can handle ***tasks*** (CRUD):
 - **Create** new task and assign a group and periodicity to start
@@ -24,6 +23,7 @@ TASKS TODAY, TASKS TOMORROW, etc.
 Each task can be mark as *completed* by the assigned user
 and have a time to be completed (*timelimit*).
 
+You can see the [complete documentation here](./docs/docs.md).
 ## License
 
 This is an open-sourced software licensed under the
