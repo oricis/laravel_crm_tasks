@@ -14,11 +14,22 @@
         <!-- Scripts -->
         @vite(['resources/js/app.js'])
         <script src="https://cdn.tailwindcss.com"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+
+        <script defer src="{{ asset('js/vendor/ironwoods/traces.js') }}"></script>
+        <script defer src="{{ asset('js/common/query.js') }}"></script>
+
+        @stack('custom-scripts')
 
         <!-- Styles -->
         @livewireStyles
     </head>
     <body class="font-sans antialiased">
+        <div id="page-content"
+            data-route="{{ getCurrentRoute() }}"
+            data-base-route="{{ getAppRoute() }}">
+        </div>
+
         <x-banner />
 
         <div class="min-h-screen bg-gray-100">
