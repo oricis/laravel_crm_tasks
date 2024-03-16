@@ -33,14 +33,14 @@ class CreateTasksTables extends Migration
             $table->foreignId('task_group_id')
                 ->constrained('task_groups')
                 ->onDelete('cascade');
-            $table->foreignId('user_id')
+            $table->foreignId('assigned_to') // user_id
                 ->nullable()
                 ->constrained('users')
                 ->onDelete('set null');
             $table->timestamp('created_at'); // from tasks.started_at
             $table->timestamp('updated_at');
             $table->timestamp('expired_at'); // from tasks.expired_at
-            $table->timestamp('ended_at')->default(null);
+            $table->timestamp('ended_at')->nullable();
         });
     }
 
