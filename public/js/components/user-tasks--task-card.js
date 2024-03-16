@@ -1,5 +1,5 @@
 'use strict';
-loaded('js/components/user-task--filters.js');
+loaded('js/components/user-tasks--task-card.js');
 
 ////////////////////////////////////////////////////////////////////////
 
