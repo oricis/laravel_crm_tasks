@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Modules\CrmTasks;
 
+use Database\Seeders\Modules\CrmTasks\Seeders\ExpirationTimeSeeder;
 use Database\Seeders\Modules\CrmTasks\Seeders\StartTimeSeeder;
 use Database\Seeders\Modules\CrmTasks\Seeders\TaskGroupSeeder;
 use Database\Seeders\Modules\CrmTasks\Seeders\TaskSeeder;
@@ -16,6 +17,7 @@ class CrmTasksSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(ExpirationTimeSeeder::class);
         $this->call(StartTimeSeeder::class);
         $this->call(TaskGroupSeeder::class);
         $this->call(TimeFilterSeeder::class);
