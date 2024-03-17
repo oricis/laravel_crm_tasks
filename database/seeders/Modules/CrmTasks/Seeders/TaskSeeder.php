@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Modules\CrmTasks\Seeders;
 
+use App\Modules\CrmTasks\Models\StartTime;
 use App\Modules\CrmTasks\Models\Task;
 use Database\Seeders\Modules\CrmTasks\Repositories\SystemTaskRepository;
 use Illuminate\Database\Seeder;

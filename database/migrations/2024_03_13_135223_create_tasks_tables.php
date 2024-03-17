@@ -21,7 +21,10 @@ class CreateTasksTables extends Migration
                 ->nullable()
                 ->constrained('task_groups')
                 ->onDelete('set null');
-            $table->timestamp('started_at')->default(now());
+            $table->foreignId('start_time_id')
+                ->nullable()
+                ->constrained('start_times')
+                ->onDelete('set null');
             $table->timestamp('expired_at')->default(now()->addDays(7))->nullable();
             $table->timestamps();
         });

@@ -4,10 +4,12 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Modules\CrmTasks\Repositories;
 
+use App\Modules\CrmTasks\Models\StartTime;
 use App\Modules\CrmTasks\Services\Times\TimestampsService;
 
 class SystemTaskRepository
 {
+    private static array $startTimeIds;
     private static array $tasks = [
         [
             'title' => 'Demo',
@@ -29,21 +31,34 @@ class SystemTaskRepository
 
     public static function get(): array
     {
+        self::$startTimeIds = StartTime::get('id')->pluck('id')->toArray();
+
         $tasks = self::$tasks;
-        $tasks = self::addEndOfMonthTo($tasks, 'Monthly revision');
+        foreach ($tasks as $key => $task) {
+            if ($task['title'] === 'Monthly revision') {
+                $task = self::addEndOfMonthTo($task);
+            }
+            $task = self::addStartTimeId($task);
+
+            $tasks[$key] = $task;
+        }
 
         return $tasks;
     }
 
 
-    private static function addEndOfMonthTo(array $tasks, string $taskTitle): array
+    private static function addEndOfMonthTo(array $task): array
     {
-        foreach ($tasks as $key => $task) {
-            if ($task['title'] === $taskTitle) {
-                $task['expired_at'] = TimestampsService::getEndOfMonthTimestamp();
-            }
-        }
+        $task['expired_at'] = TimestampsService::getEndOfMonthTimestamp();
 
-        return $tasks;
+        return $task;
+    }
+
+    private static function addStartTimeId(array $task): array
+    {
+        $task['start_time_id']
+            = self::$startTimeIds[rand(0, count(self::$startTimeIds) - 1)];
+
+        return $task;
     }
 }

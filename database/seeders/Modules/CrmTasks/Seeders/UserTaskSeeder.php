@@ -24,7 +24,7 @@ class UserTaskSeeder extends Seeder
                     'title'         => $task->title,
                     'description'   => $task->description,
                     'task_group_id' => $task->task_group_id,
-                    'created_at'    => $task->started_at,
+                    'created_at'    => now(),
                     'expired_at'    => $expiredAt,
                     'assigned_to'   => $user->id,
                 ]);
