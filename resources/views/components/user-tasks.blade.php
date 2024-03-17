@@ -19,12 +19,12 @@
         <section class="my-5" id="tasks-list">
             <h4 class="hidden">Loaded tasks</h4>
 
-            @foreach ($openTasks as $openTask)
-                <x-user-tasks-task-card :openTask="$openTask" />
+            @foreach ($tasks as $task)
+                <x-user-tasks-task-card :task="$task" />
             @endforeach
 
             <p class="py-2 border-t border-gray-200 text-grey-600">Total:
-                <span class="text-grey-900" id="tasks-total">{{ $openTasks->count() }}</span></p>
+                <span class="text-grey-900" id="tasks-total">{{ $tasks->count() }}</span></p>
         </section>
     </article>
 </div>
