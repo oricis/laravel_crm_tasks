@@ -15,8 +15,8 @@ class CreateTasksTables extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
+            $table->string('title', 100);
+            $table->string('description', 255)->nullable();
             $table->foreignId('task_group_id')
                 ->nullable()
                 ->constrained('task_groups')
@@ -31,8 +31,8 @@ class CreateTasksTables extends Migration
 
         Schema::create('user_task', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->text('description')->nullable();
+            $table->string('title', 100);
+            $table->string('description', 255)->nullable();
             $table->foreignId('task_group_id')
                 ->constrained('task_groups')
                 ->onDelete('cascade');

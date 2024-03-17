@@ -16,7 +16,7 @@ class CreateStartTimesTable extends Migration
         Schema::create('start_times', function (Blueprint $table) {
             $table->id();
             $table->string('label', 90);
-            $table->text('description')->nullable();
+            $table->string('description', 255)->nullable();
             $table->timestamp('started_at')->default(NOW());
             $table->timestamp('ended_at')->nullable();
             $table->timestamps();

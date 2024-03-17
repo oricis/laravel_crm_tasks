@@ -16,7 +16,7 @@ class CreateTimeFiltersTable extends Migration
         Schema::create('time_filters', function (Blueprint $table) {
             $table->id();
             $table->string('label', 100);
-            $table->text('description')->nullable();
+            $table->string('description', 255)->nullable();
             $table->timestamps();
         });
     }
