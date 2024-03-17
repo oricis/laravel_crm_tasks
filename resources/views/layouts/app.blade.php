@@ -17,6 +17,7 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
 
         <script defer src="{{ asset('js/vendor/ironwoods/traces.js') }}"></script>
+        <script defer src="{{ asset('js/common/common.js') }}"></script>
         <script defer src="{{ asset('js/common/query.js') }}"></script>
 
         @stack('custom-scripts')
@@ -43,6 +44,10 @@
                     </div>
                 </header>
             @endif
+
+            @include('components.feedbacks.error')
+            @include('components.feedbacks.success')
+            @include('components.feedbacks.warn')
 
             <!-- Page Content -->
             <main>
