@@ -6,16 +6,16 @@ namespace Database\Seeders\Modules\CrmTasks\Repositories;
 
 use App\Modules\CrmTasks\Models\StartTime;
 use App\Modules\CrmTasks\Services\Times\TimestampsService;
+use Carbon\Carbon;
 
 class SystemTaskRepository
 {
     private static array $startTimeIds;
     private static array $tasks = [
         [
-            'title' => 'Demo',
+            'title'       => 'Demo',
             'description' => 'This is a demo task',
             'task_group_id' => 1,
-            'expired_at' => null,
         ],
         [
             'title' => 'Monthly revision',
@@ -38,6 +38,11 @@ class SystemTaskRepository
             if ($task['title'] === 'Monthly revision') {
                 $task = self::addEndOfMonthTo($task);
             }
+            if ($task['title'] === 'Demo') {
+                $task = self::startNow($task);
+                $task = self::addOneWeek($task);
+            }
+
             $task = self::addStartTimeId($task);
 
             $tasks[$key] = $task;
@@ -47,9 +52,22 @@ class SystemTaskRepository
     }
 
 
-    private static function addEndOfMonthTo(array $task): array
+    private static function addEndOfMonthTo(
+        array $task,
+        string $attr = 'expired_at'
+    ): array
     {
-        $task['expired_at'] = TimestampsService::getEndOfMonthTimestamp();
+        $task[$attr] = TimestampsService::getEndOfMonthTimestamp();
+
+        return $task;
+    }
+
+    private static function addOneWeek(
+        array $task,
+        string $attr = 'expired_at'
+    ): array
+    {
+        $task[$attr] = (new Carbon())->addWeek()->toDateTimeString();
 
         return $task;
     }
@@ -58,6 +76,13 @@ class SystemTaskRepository
     {
         $task['start_time_id']
             = self::$startTimeIds[rand(0, count(self::$startTimeIds) - 1)];
+
+        return $task;
+    }
+
+    private static function startNow(array $task): array
+    {
+        $task['start_at'] = now();
 
         return $task;
     }

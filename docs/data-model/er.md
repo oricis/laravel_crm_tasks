@@ -4,6 +4,10 @@
 
 ## Table descriptions
 
+> expiration_times
+
+Store the times where each task will end (as string options)
+
 > start_times
 
 Store the times where each task will start (as string options)

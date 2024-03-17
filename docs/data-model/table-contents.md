@@ -2,14 +2,24 @@
 
 ## Table Attributes
 
+> expiration_times
+
+Has the fields:
+ - id
+ - label
+ - description (default NULL)
+
+The "tasks time periods" (when a task ends), for example:
+ - One hour
+ - One day
+ - ...
+
 > start_times
 
 Has the fields:
  - id
  - label
  - description (default NULL)
- - started_at (default NOW())
- - ended_at (default NULL (no end the periodical assignations))
 
 The "tasks time periods" (when a task starts) can be:
  - Every 5th of March of each year
@@ -32,6 +42,8 @@ Has the fields:
  - title
  - description (default NULL)
  - task_group_id (FK)
+ - expiration_time_id (FK)
+ - start_time_id (FK)
  - started_at (default NOW())
  - expired_at (nullable (no timelimit), default NOW() + 7 days)
 

@@ -21,11 +21,25 @@ class CreateTasksTables extends Migration
                 ->nullable()
                 ->constrained('task_groups')
                 ->onDelete('set null');
+
+            // Choose when is going to create the user task
             $table->foreignId('start_time_id')
                 ->nullable()
                 ->constrained('start_times')
                 ->onDelete('set null');
-            $table->timestamp('expired_at')->default(now()->addDays(7))->nullable();
+                
+            // Choose when the user task must be completed
+            $table->foreignId('expiration_time_id')
+                ->nullable()
+                ->constrained('expiration_times')
+                ->onDelete('set null');
+
+            // Time to start scheduling
+            $table->timestamp('start_at')->default(now());
+
+            // Time to end scheduling
+            $table->timestamp('expired_at')->default(now()->addDays(7));
+
             $table->timestamps();
         });
 
