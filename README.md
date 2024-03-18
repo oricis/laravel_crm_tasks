@@ -7,23 +7,33 @@ where users can work on "recurrent tasks".
 
 ## Features
 
-The users can handle ***tasks groups***:
-- **Create** new task groups.
+#### 1. The users can ***create tasks groups***
 
-The users can handle ***tasks*** (CRUD):
-- **Create** new task and assign a group and periodicity to start
-(each task is assigned to the users in recurrent periods).
-Assign an expiration date.
-- **Read**. Lists the task based on "periods of time":
-TASKS TODAY, TASKS TOMORROW, etc.
-- **Update**. Change the task group.
+*Every task will be assigned to one task group.*
 
-*The "users" can create "tasks" and "groups of tasks"*.
+#### 2. The users ***can create tasks***, this action is composed by:
+ - Fill the text fields
+ - Assign a task group
+ - Set the period of time where it will be active (between `start_at` and
+`expired_at` datetimes)
+ - Choose the times where recurrently the recurrent task will be assign to users
+ - Choose the time limit where the task must be complete
+(based on time periods: one hour, one day, etc.)
+
+#### 3. The users can read their tasks.
+
+Each user can list their assigned tasks based on "expiration times":
+"TASKS TODAY", "TASKS TOMORROW", etc.
+
+#### 4. Mark the tasks as completed
 
 Each task can be mark as *completed* by the assigned user
 and have a time to be completed (*timelimit*).
 
-You can see the [complete documentation here](./docs/docs.md).
+***
+
+Complete documentation ***[here](./docs/docs.md)***.
+
 ## License
 
 This is an open-sourced software licensed under the
