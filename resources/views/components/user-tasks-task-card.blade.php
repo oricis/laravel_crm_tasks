@@ -21,7 +21,3 @@
     </div>
     <p class="flex justify-between mt-5 md:mt-8 bg-gray-200 p-1 md:p-2 md:py-3"><span>Group:</span><strong> {{ $task->group->title }}</strong></p>
 </article>
-
-@push('custom-scripts')
-    <script defer src="{{ asset('js/components/user-tasks--task-card.js') }}"></script>
-@endpush

@@ -42,7 +42,3 @@
         <span>Group:</span><strong> {{ $task->group->title }}</strong>
     </p>
 </article>
-
-@push('custom-scripts')
-    <script defer src="{{ asset('js/components/tasks--task-card.js') }}"></script>
-@endpush
