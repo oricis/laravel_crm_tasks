@@ -118,5 +118,6 @@ class TimestampsServiceTest extends TestCase
 
         $this->assertTrue(TimestampsService::isValidTimestampString($validStr));
         $this->assertFalse(TimestampsService::isValidTimestampString($invalidStr));
+        $this->assertFalse(TimestampsService::isValidTimestampString('1000'));
     }
 }
