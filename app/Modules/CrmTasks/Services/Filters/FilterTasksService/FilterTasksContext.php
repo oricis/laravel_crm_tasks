@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\CrmTasks\Services\Filters\FilterTasksService;
 
 use App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options\TaskNext;
@@ -7,12 +9,15 @@ use App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options\TaskNextMon
 use App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options\TaskNextWeek;
 use App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options\TaskToday;
 use App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options\TaskTomorrow;
+use App\Modules\CrmTasks\Services\Traits\ServiceContextAccessorTrait;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 
 class FilterTasksContext
 {
+    use ServiceContextAccessorTrait; // add @getOptionKeys()
+
     private bool $onlyOpen;
-    private array $options = [
+    private static array $options = [
         'TASKS TODAY'      => TaskToday::class,
         'TASKS TOMORROW'   => TaskTomorrow::class,
         'TASKS NEXT WEEK'  => TaskNextWeek::class,
@@ -30,9 +35,7 @@ class FilterTasksContext
 
     public function get(int $userId): EloquentCollection
     {
-        return (isset($this->options[$this->filter]))
-            ? (new $this->options[$this->filter])
-                ->get($userId,  $this->onlyOpen)
-            : new EloquentCollection;
+        return (new self::$options[$this->filter])
+            ->get($userId,  $this->onlyOpen);
     }
 }

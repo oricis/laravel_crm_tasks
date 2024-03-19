@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Modules\CrmTasks\Services\Filters\FilterTasksService\Options;
 
 use App\Modules\CrmTasks\Models\UserTask;
