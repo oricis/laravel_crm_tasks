@@ -110,4 +110,13 @@ class TimestampsServiceTest extends TestCase
             $actualTimestamp
         );
     }
+
+    public function testIfTheTimestampStringIsValid(): void
+    {
+        $validStr = '2024-03-19 11:59:59';
+        $invalidStr = 'invalid 2024-03-19';
+
+        $this->assertTrue(TimestampsService::isValidTimestampString($validStr));
+        $this->assertFalse(TimestampsService::isValidTimestampString($invalidStr));
+    }
 }

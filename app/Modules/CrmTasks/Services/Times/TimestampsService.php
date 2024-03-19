@@ -49,4 +49,16 @@ class TimestampsService
             ->startOfMonth()
             ->format(Data::DATE_TIME_FORMAT);
     }
+
+    public static function isValidTimestampString(string $strTimestamp): bool
+    {
+        $timestamp = strtotime($strTimestamp);
+        if (is_numeric($timestamp)) {
+            $formattedDate = date(Data::DATE_TIME_FORMAT, $timestamp);
+
+            return $formattedDate === $strTimestamp;
+        }
+
+        return false;
+    }
 }
