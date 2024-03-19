@@ -38,7 +38,8 @@
             </div>
         </div>
     </div>
-    <p class="flex justify-between mt-5 md:mt-8 bg-gray-200 p-1 md:p-2 md:py-3">
+
+    <p class="flex justify-between mt-2 md:mt-3 bg-gray-200 p-1 md:p-2 md:py-3">
         <span>Group:</span><strong> {{ $task->group->title }}</strong>
     </p>
 </article>
