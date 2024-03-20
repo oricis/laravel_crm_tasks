@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace Database\Seeders\Modules\CrmTasks\Repositories;
 
+use App\Modules\CrmTasks\Models\ExpirationTime;
 use App\Modules\CrmTasks\Models\StartTime;
+use App\Modules\CrmTasks\Repositories\Data\Data;
 use App\Modules\CrmTasks\Services\Times\TimestampsService;
 use Carbon\Carbon;
 
 class SystemTaskRepository
 {
+    private static array $expirationTimeIds;
     private static array $startTimeIds;
     private static array $tasks = [
         [
@@ -31,6 +34,7 @@ class SystemTaskRepository
 
     public static function get(): array
     {
+        self::$expirationTimeIds = ExpirationTime::get('id')->pluck('id')->toArray();
         self::$startTimeIds = StartTime::get('id')->pluck('id')->toArray();
 
         $tasks = self::$tasks;
@@ -43,6 +47,7 @@ class SystemTaskRepository
                 $task = self::addOneWeek($task);
             }
 
+            $task = self::addExpirationTimeId($task);
             $task = self::addStartTimeId($task);
 
             $tasks[$key] = $task;
@@ -67,7 +72,15 @@ class SystemTaskRepository
         string $attr = 'expired_at'
     ): array
     {
-        $task[$attr] = (new Carbon())->addWeek()->toDateTimeString();
+        $task[$attr] = now()->addWeek()->format(Data::DATE_TIME_FORMAT);
+
+        return $task;
+    }
+
+    private static function addExpirationTimeId(array $task): array
+    {
+        $task['expiration_time_id']
+            = self::$startTimeIds[rand(0, count(self::$expirationTimeIds) - 1)];
 
         return $task;
     }

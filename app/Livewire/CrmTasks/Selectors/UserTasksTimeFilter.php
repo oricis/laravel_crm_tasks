@@ -13,8 +13,10 @@ class UserTasksTimeFilter extends Component
 
     public function selectFilter(string $filterLabel): void
     {
-        logger(go() . ' => ' . $filterLabel);
         $this->selectedFilterLabel = $filterLabel;
+
+        // emit event to reload filtered tasks
+        $this->dispatch('reloadUserTasks', strFilter: $filterLabel);
     }
 
     public function render()

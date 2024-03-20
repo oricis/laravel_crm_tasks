@@ -17,7 +17,7 @@
             'userTaskId' => $task->id,
             'endedAt'    => $task->ended_at,
             'expiredAt'  => $task->expired_at,
-        ])
+        ], key("close-task-{$task->id}-key"))
     </div>
 
     <p class="flex justify-between mt-2 md:mt-3 bg-gray-200 p-1 md:p-2 md:py-3">

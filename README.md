@@ -64,18 +64,25 @@ Also you need new versions of node and npm.
     npm run build
     npm run dev
 
-4. Create a database and set the access data on the .env file
+4. Create a database and one user (all CRUD operations must be permitted)
 
-5. Generate a key:
+5. Config `.env` file:
+ - Set the DB access data
+ - Set CACHE_DRIVER=database (to use schedule)
+
+6. Generate a key:
 
     php artisan key:generate
 
-6. Run migrations a seeders:
+7. Run migrations a seeders:
 
     php artisan migrate --seed
 
-Two users was added: "foo@mail.com" and "baz@mail.com" with pw: "123456"
+*If you run the migrations and seeders on non production environment, you have:*
 
+ *- some "user tasks"*
+
+ *- The users "foo@mail.com" and "baz@mail.com" with pw: "123456"*
 
 To test you can use the laravel in-build server, run:
 
@@ -83,7 +90,20 @@ To test you can use the laravel in-build server, run:
 
 And open the URL.
 
+### Schedule tasks assignation
 
+A daily scheduled command is used to assign the tasks to the users
+(see app/Console/Kernel.php).
+
+To run schedule locally run:
+
+    php artisan schedule:work
+
+To run on the server add a single cron configuration entry to the server
+that runs the `schedule:run` command every minute.
+
+
+***
 This project has been developer under this stack:
  - Apache/2.4.57 (Ubuntu)
  - Laravel 10.48.2
@@ -92,9 +112,10 @@ This project has been developer under this stack:
  - Node 20.11.1
  - PHP 8.3.4
  - Ubuntu 20.04
- 
-Some resources has been loaded from remote sources (Tailwind and Flowbite)
-then you require an active Internet connection to run the app.
+
+Resources as *Tailwind* or *Flowbite*, have been loaded locally
+to avoid require an active Internet connection or node compilations
+to run the app.
 
 
 ***

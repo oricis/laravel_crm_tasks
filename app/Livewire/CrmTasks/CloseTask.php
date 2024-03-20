@@ -12,7 +12,7 @@ class CloseTask extends Component
     public string $expiredAt;
 
 
-    public function close()
+    public function close(): void
     {
         if ($result = (new UpdateUserTaskAction($this->userTaskId))
             ->close((string) now())) {
