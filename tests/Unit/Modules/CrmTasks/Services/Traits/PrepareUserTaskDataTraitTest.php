@@ -11,9 +11,11 @@ use App\Modules\CrmTasks\Models\UserTask;
 use App\Modules\CrmTasks\Services\Times\TimestampsService;
 use App\Modules\CrmTasks\Services\Traits\PrepareUserTaskDataTrait;
 use Tests\TestCase;
+use Tests\Unit\Modules\CrmTasks\PrepareDataTrait;
 
 class PrepareUserTaskDataTraitTest extends TestCase
 {
+    use PrepareDataTrait;
     use PrepareUserTaskDataTrait;
 
     private array $requiredFields;
@@ -29,13 +31,14 @@ class PrepareUserTaskDataTraitTest extends TestCase
 
     public function testIfPrepareDataOkToCreateAnUserTask(): void
     {
-        $task = Task::first();
+        $task = self::setTaskStartTime(Task::first());
         $userId = User::first()->id;
         $this->setRequiredModelFields($task);
 
         $result = self::prepareUserTaskData($userId, $task);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
+
         $keys = array_keys($result);
         sort($keys);
         $this->assertEquals($this->requiredFields, $keys);

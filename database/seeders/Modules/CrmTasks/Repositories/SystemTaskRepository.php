@@ -80,7 +80,7 @@ class SystemTaskRepository
     private static function addExpirationTimeId(array $task): array
     {
         $task['expiration_time_id']
-            = self::$startTimeIds[rand(0, count(self::$startTimeIds) - 1)];
+            = self::$startTimeIds[rand(0, count(self::$expirationTimeIds) - 1)];
 
         return $task;
     }

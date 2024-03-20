@@ -10,9 +10,11 @@ use App\Modules\CrmTasks\Models\UserTask;
 use App\Modules\CrmTasks\Services\Actions\CreateUserTaskAction;
 use App\Modules\CrmTasks\Services\Traits\PrepareUserTaskDataTrait;
 use Tests\TestCase;
+use Tests\Unit\Modules\CrmTasks\PrepareDataTrait;
 
 class CreateUserTaskActionTest extends TestCase
 {
+    use PrepareDataTrait;
     use PrepareUserTaskDataTrait;
 
     private array $data;
@@ -31,13 +33,14 @@ class CreateUserTaskActionTest extends TestCase
             ->first();
         $this->assertNotNull($task, '>> Without appropriate tasks <<');
 
+        $task = self::setTaskStartTime($task);
         $this->userId = User::first()->id;
         $this->data = self::prepareUserTaskData($this->userId, $task);
     }
 
     public function testTaskCreationWithAllRequiredData(): void
     {
-        $result = (new CreateUserTaskAction($this->data))->create();
+        $result = (new CreateUserTaskAction($this->data))->create(); // BUG:
         $this->assertTrue($result);
 
         $lastUserTask = UserTask::latest()->first();
