@@ -29,7 +29,3 @@
         </ul>
     </div>
 </div>
-
-@push('custom-scripts')
-    <script defer src="{{ asset('js/components/user-tasks--filters.js') }}"></script>
-@endpush

@@ -113,8 +113,9 @@ This project has been developer under this stack:
  - PHP 8.3.4
  - Ubuntu 20.04
 
-Some resources has been loaded from remote sources (Tailwind and Flowbite)
-then you require an active Internet connection to run the app.
+Resources as *Tailwind* or *Flowbite*, have been loaded locally
+to avoid require an active Internet connection or node compilations
+to run the app.
 
 
 ***

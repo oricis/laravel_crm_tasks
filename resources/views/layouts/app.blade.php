@@ -13,9 +13,8 @@
 
         <!-- Scripts -->
         @vite(['resources/js/app.js'])
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
-
+        <script src="{{ asset('js/vendor/tailwindcss/tailwind.3.4.1.min.js') }}"></script>
+        <script defer src="{{ asset('js/vendor/flowbite/flowbite.2.3.0.min.js') }}"></script>
         <script defer src="{{ asset('js/vendor/ironwoods/traces.js') }}"></script>
         <script defer src="{{ asset('js/common/common.js') }}"></script>
         <script defer src="{{ asset('js/common/query.js') }}"></script>

@@ -91,7 +91,7 @@
                 </div>
 
                 @push('custom-scripts')
-                    <script defer src='https://flowbite.com/docs/datepicker.min.js'>
+                    <script defer src="{{ asset('js/vendor/flowbite/datepicker.min.js') }}">
                 @endpush
             </x-create-modal>
         </div>
