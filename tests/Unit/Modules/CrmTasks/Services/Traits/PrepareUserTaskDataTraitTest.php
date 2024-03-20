@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\CrmTasks\Services\Traits;
 
 use App\Models\User;
+use App\Modules\CrmTasks\Models\ExpirationTime;
 use App\Modules\CrmTasks\Models\Task;
 use App\Modules\CrmTasks\Models\UserTask;
 use App\Modules\CrmTasks\Services\Times\TimestampsService;
@@ -32,12 +33,11 @@ class PrepareUserTaskDataTraitTest extends TestCase
         $userId = User::first()->id;
         $this->setRequiredModelFields($task);
 
-        $result = $this->prepareUserTaskData($userId, $task);
+        $result = self::prepareUserTaskData($userId, $task);
         $this->assertIsArray($result);
         $this->assertNotEmpty($result);
         $keys = array_keys($result);
         sort($keys);
-        dump($this->requiredFields, $keys);
         $this->assertEquals($this->requiredFields, $keys);
 
         $this->assertTrue(
@@ -45,6 +45,34 @@ class PrepareUserTaskDataTraitTest extends TestCase
         $this->assertTrue(
             TimestampsService::isValidTimestampString($result['start_at']));
         $this->assertNotNull(User::find($result['assigned_to']));
+    }
+
+    public function testIsGetValidExpirationDatetimes(): void
+    {
+        // function getExpirationTime(
+        //     string $startAt,
+        //     ?int $expirationTimeId
+        // ): string
+
+        $strNow = (string) now();
+
+        $result = self::getExpirationTime($strNow);
+        $this->assertIsString($result);
+        $this->assertTrue(TimestampsService::isValidTimestampString($result));
+
+        $result = self::getExpirationTime($strNow, null);
+        $this->assertIsString($result);
+        $this->assertTrue(TimestampsService::isValidTimestampString($result));
+
+        $result = self::getExpirationTime($strNow, 0);
+        $this->assertIsString($result);
+        $this->assertTrue(TimestampsService::isValidTimestampString($result));
+
+        $expirationTime = ExpirationTime::first('id');
+        $this->assertNotNull($expirationTime);
+        $result = self::getExpirationTime($strNow, $expirationTime->id);
+        $this->assertIsString($result);
+        $this->assertTrue(TimestampsService::isValidTimestampString($result));
     }
 
 

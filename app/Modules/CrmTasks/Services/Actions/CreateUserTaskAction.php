@@ -6,24 +6,25 @@ namespace App\Modules\CrmTasks\Services\Actions;
 
 use App\Exceptions\ActionNotAllowedException;
 use App\Models\User;
-use App\Modules\CrmTasks\Models\Task;
 use App\Modules\CrmTasks\Models\UserTask;
+use App\Modules\CrmTasks\Services\Validations\TaskValidationService;
 
 class CreateUserTaskAction
 {
     private array $taskData;
+    private bool $pass = false;
     private string $exceptionMessage;
 
 
-    public function __construct(Task $task, int $userId)
+    public function __construct(array $data)
     {
-        $this->initData($task->toArray(), $userId);
+        $this->setData($data);
     }
 
     public function create(): bool
     {
         try {
-            if ($this->exceptionMessage) {
+            if (!$this->pass) {
                 throw new ActionNotAllowedException($this->exceptionMessage);
             }
 
@@ -37,19 +38,19 @@ class CreateUserTaskAction
     }
 
 
-    private function initData(array $taskData, int $userId): void
+    private function setData(array $taskData): void
     {
-        if ($taskData['expired_at'] > now()
-            || $taskData['created_at'] < now()) {
-            $this->exceptionMessage = 'Task inactive. It can\'t be assigned';
+        if (!TaskValidationService::isTaskActive($taskData)) {
+            $this->exceptionMessage = 'Task "' . $taskData['title']
+                . '" inactive. It can\'t be assigned';
             return;
         }
-        if (!User::find($userId)) {
+        $userId = $taskData['assigned_to'];
+        if (is_null(User::find($userId))) {
             $this->exceptionMessage = 'User with ID: ' . $userId . ' not found';
             return;
         }
-
-        $taskData['assigned_to'] = $userId;
+        $this->pass = true;
 
         $this->taskData = $taskData;
     }
