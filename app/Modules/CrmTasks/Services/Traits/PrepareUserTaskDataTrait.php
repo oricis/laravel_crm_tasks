@@ -14,7 +14,7 @@ use App\Modules\CrmTasks\Services\Times\StartTimeCheckerService;
 
 trait PrepareUserTaskDataTrait
 {
-    private array $taskKeysToRemove = [
+    private static array $taskKeysToRemove = [
         'created_at',
         'expiration_time_id',
         'id',
@@ -23,37 +23,45 @@ trait PrepareUserTaskDataTrait
     ];
 
 
-    public function prepareUserTaskData(int $userId, Task $task): array
+    public static function getExpirationTime(
+        string $startAt,
+        ?int $expirationTimeId = null
+    ): string
+    {
+        $expirationTimeLabel
+            = ($expirationTimeId
+                && $expirationTime = ExpirationTime::find($expirationTimeId))
+            ? $expirationTime->label
+            : ''; // no expiration date
+
+        return ($expirationTimeLabel)
+            ? (new ExpirationDatetimeService($expirationTimeLabel))->get($startAt)
+            : Data::MAX_MYSQL_TIMESTAMP;
+    }
+
+    public static function prepareUserTaskData(int $userId, Task $task): array
     {
         $startTimeLabel = StartTime::find($task->start_time_id)->label;
         if (!(new StartTimeCheckerService($startTimeLabel))->pass()) {
             notice('It isn\'t time to start: "' . $startTimeLabel . '"');
+            return [];
         }
+
         $startAt = (new StartDatetimeService($startTimeLabel))->get();
-
-        $expirationTimeLabel
-            = ($expirationTime = ExpirationTime::find($task->expiration_time_id))
-            ? $expirationTime->label
-            : ''; // no expiration date
-
-        $expiredAt = ($expirationTimeLabel)
-            ? (new ExpirationDatetimeService($expirationTimeLabel))->get($startAt)
-            : now()->addYears(100)->format(Data::DATE_TIME_FORMAT);
-
+        $expiredAt
+            = self::getExpirationTime($startAt, $task->expiration_time_id);
 
         $output = removeArrElementsByIndex(
             $task->toArray(),
-            $this->taskKeysToRemove
+            self::$taskKeysToRemove
         );
 
-        $output = array_merge(
+        return array_merge(
             $output, [
                 'assigned_to' => $userId,
                 'start_at'    => $startAt,
                 'expired_at'  => $expiredAt,
             ]
         );
-
-        return $output;
     }
 }

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\CrmTasks\Services\Actions;
 
-use App\Modules\CrmTasks\Models\TaskGroup;
-use App\Modules\CrmTasks\Services\Actions\CreateUserTaskAction;
+use App\Models\User;
+use App\Modules\CrmTasks\Models\UserTask;
+use App\Modules\CrmTasks\Services\Actions\GetUserTaskAction;
 use Tests\TestCase;
 
 class GetUserTaskActionTest extends TestCase
@@ -13,19 +14,19 @@ class GetUserTaskActionTest extends TestCase
     private int $userId;
 
 
-    public function __construct(int $userId)
+    protected function setUp(): void
     {
-        $this->userId = $userId;
+        parent::setUp();
+
+        $this->assertTrue(User::exists());
+        $this->assertTrue(UserTask::exists());
+
+        $this->userId = UserTask::first()->assigned_to;
     }
 
-    // TODO: refactor to use strategy on filter queries
-    public function getOpenTasks(array $fields = []): EloquentCollection
+    public function testIfTheUserHasOpenTasks(): void
     {
-        $output = UserTask::query()
-            ->whereAssignedTo($this->userId)
-            ->whereNull('ended_at')
-            ->get($fields ? $fields : '*');
-
-        return $output;
+        $result = (new GetUserTaskAction($this->userId))->getOpenTasks();
+        $this->assertTrue($result->count() > 0);
     }
 }
