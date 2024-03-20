@@ -64,13 +64,17 @@ Also you need new versions of node and npm.
     npm run build
     npm run dev
 
-4. Create a database and set the access data on the .env file
+4. Create a database and one user (all CRUD operations must be permitted)
 
-5. Generate a key:
+5. Config `.env` file:
+ - Set the DB access data
+ - Set CACHE_DRIVER=database (to use schedule)
+
+6. Generate a key:
 
     php artisan key:generate
 
-6. Run migrations a seeders:
+7. Run migrations a seeders:
 
     php artisan migrate --seed
 
@@ -86,7 +90,20 @@ To test you can use the laravel in-build server, run:
 
 And open the URL.
 
+### Schedule tasks assignation
 
+A daily scheduled command is used to assign the tasks to the users
+(see app/Console/Kernel.php).
+
+To run schedule locally run:
+
+    php artisan schedule:work
+
+To run on the server add a single cron configuration entry to the server
+that runs the `schedule:run` command every minute.
+
+
+***
 This project has been developer under this stack:
  - Apache/2.4.57 (Ubuntu)
  - Laravel 10.48.2

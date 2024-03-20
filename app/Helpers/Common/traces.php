@@ -4,18 +4,24 @@ declare(strict_types=1);
 
 $funcName = 'error';
 if (!function_exists($funcName)) {
-    function error(string $message, int $userId = 0): void
+    function error(string $message, int $userId = 0, bool $notify = false): void
     {
         logger()->error($message);
+        if ($notify) {
+            // TODO:
+        }
     }
 } else {
     logger('@@@ Helper func "traces / ' . $funcName . '()" already EXISTS !');
 }
 $funcName = 'notice';
 if (!function_exists($funcName)) {
-    function notice(string $message, int $userId = 0): void
+    function notice(string $message, int $userId = 0, bool $notify = false): void
     {
         logger()->notice($message);
+        if ($notify) {
+            // TODO:
+        }
     }
 } else {
     logger('@@@ Helper func "traces / ' . $funcName . '()" already EXISTS !');

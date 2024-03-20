@@ -12,7 +12,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('crm:set-tasks')
+            ->environments(['production', 'test'])
+            ->daily()
+            ->at('00:00')
+            ->evenInMaintenanceMode()
+            ->onFailure(function () {
+                error('>> Failing attempt to assign user tasks', 0, true);
+            });
     }
 
     /**
@@ -20,7 +27,10 @@ class Kernel extends ConsoleKernel
      */
     protected function commands(): void
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load([
+            __DIR__.'/Commands',
+            app_path('Modules/CrmTasks/Console/Commands'),
+        ]);
 
         require base_path('routes/console.php');
     }
