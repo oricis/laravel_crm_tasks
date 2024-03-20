@@ -74,8 +74,11 @@ Also you need new versions of node and npm.
 
     php artisan migrate --seed
 
-Two users was added: "foo@mail.com" and "baz@mail.com" with pw: "123456"
+*If you run the migrations and seeders on non production environment, you have:*
 
+ *- some "user tasks"*
+
+ *- The users "foo@mail.com" and "baz@mail.com" with pw: "123456"*
 
 To test you can use the laravel in-build server, run:
 
@@ -92,7 +95,7 @@ This project has been developer under this stack:
  - Node 20.11.1
  - PHP 8.3.4
  - Ubuntu 20.04
- 
+
 Some resources has been loaded from remote sources (Tailwind and Flowbite)
 then you require an active Internet connection to run the app.
 
