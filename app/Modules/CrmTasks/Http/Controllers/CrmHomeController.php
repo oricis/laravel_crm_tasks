@@ -12,14 +12,8 @@ class CrmHomeController extends CrmTaskMainController
     public function home()
     {
         $openTasks = (new GetUserTaskAction(Auth::user()->id))->getOpenTasks();
-        $timeFilters = TimeFilter::get([
-            'id',
-            'label',
-            'description',
-        ]);
 
         return view('pages.dashboard')
-            ->with('tasks', $openTasks)
-            ->with('timeFilters', $timeFilters);
+            ->with('tasks', $openTasks);
     }
 }

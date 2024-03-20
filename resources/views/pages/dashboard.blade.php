@@ -6,7 +6,10 @@
             </div>
 
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                <x-user-tasks :tasks="$tasks" :timeFilters="$timeFilters" />
+                @livewire('crm-tasks.user-tasks', [
+                    'tasks' => $tasks,
+                ])
+
                 <x-made-with />
             </div>
         </div>
