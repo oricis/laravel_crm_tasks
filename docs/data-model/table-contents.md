@@ -2,7 +2,7 @@
 
 ## Table Attributes
 
-> expiration_times
+> crm_expiration_times
 
 Has the fields:
  - id
@@ -14,7 +14,7 @@ The "tasks time periods" (when a task ends), for example:
  - One day
  - ...
 
-> start_times
+> crm_start_times
 
 Has the fields:
  - id
@@ -28,14 +28,14 @@ The "tasks time periods" (when a task starts) can be:
  - Every day
  - Wednesday and Friday
 
-> task_groups
+> crm_task_groups
 
 Has the fields:
  - id
  - title
  - description (default NULL)
 
-> tasks
+> crm_tasks
 
 Has the fields:
  - id
@@ -47,7 +47,7 @@ Has the fields:
  - started_at (default NOW())
  - expired_at (nullable (no timelimit), default NOW() + 7 days)
 
-> time_filters
+> crm_time_filters
 
 Has the fields:
  - id
@@ -61,7 +61,7 @@ The "time filters" to visualize the *uncompleted tasks* are:
  - TASKS NEXT MONTH
  - TASKS NEXT (ALL)
 
-> user_tasks
+> crm_user_tasks
 
 Has the fields:
  - id
@@ -73,7 +73,7 @@ Has the fields:
  - ended_at (define if the tasks is completed or not)
  - expired_at (from tasks.expired_at)
 
-> users
+> crm_users
 
 Has the fields:
  - id

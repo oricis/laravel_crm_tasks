@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\CrmTasks;
 
-use App\Modules\CrmTasks\Models\StartTime;
-use App\Modules\CrmTasks\Models\Task;
+use App\Modules\CrmTasks\Models\CrmStartTime;
+use App\Modules\CrmTasks\Models\CrmTask;
 
 trait PrepareDataTrait
 {
 
     private static function setTaskStartTime(
-        Task $task,
+        CrmTask $task,
         string $label = 'Every day'
-    ): Task
+    ): CrmTask
     {
-        $startTimeId = StartTime::whereLabel($label)->first()->id;
+        $startTimeId = CrmStartTime::whereLabel($label)->first()->id;
         $task->update([
-            'start_time_id' => $startTimeId,
+            'crm_start_time_id' => $startTimeId,
         ]);
 
         return $task;

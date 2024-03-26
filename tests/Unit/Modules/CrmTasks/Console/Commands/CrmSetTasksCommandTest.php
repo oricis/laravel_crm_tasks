@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace Tests\Unit\Modules\CrmTasks\Console\Commands;
 
 use App\Models\User;
-use App\Modules\CrmTasks\Models\ExpirationTime;
-use App\Modules\CrmTasks\Models\StartTime;
-use App\Modules\CrmTasks\Models\Task;
-use App\Modules\CrmTasks\Models\TaskGroup;
-use App\Modules\CrmTasks\Models\UserTask;
-use App\Modules\CrmTasks\Repositories\Data\Data;
+use App\Modules\CrmTasks\Models\CrmExpirationTime;
+use App\Modules\CrmTasks\Models\CrmStartTime;
+use App\Modules\CrmTasks\Models\CrmTask;
+use App\Modules\CrmTasks\Models\CrmTaskGroup;
+use App\Modules\CrmTasks\Models\CrmUserTask;
+use App\Modules\CrmTasks\Repositories\Data\CrmData;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
@@ -23,8 +23,8 @@ class CrmSetTasksCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->assertTrue(ExpirationTime::exists());
-        $this->assertTrue(StartTime::exists());
+        $this->assertTrue(CrmExpirationTime::exists());
+        $this->assertTrue(CrmStartTime::exists());
         $this->assertTrue(TaskGroup::exists());
         $this->assertTrue(User::exists());
     }
@@ -33,7 +33,7 @@ class CrmSetTasksCommandTest extends TestCase
     {
         $this->assertTrue($this->seedAnActiveTask());
 
-        $userTasksBefore = UserTask::count();
+        $userTasksBefore = CrmUserTask::count();
         $this->assertEquals(0, Artisan::call($this->signature));
         $this->assertTrue($userTasksBefore < UserTask::count());
     }
@@ -44,11 +44,11 @@ class CrmSetTasksCommandTest extends TestCase
         try {
             Task::create([
                 'description' => fake()->text(90),
-                'expiration_time_id' => ExpirationTime::first()->id,
-                'expired_at'  => now()->addHour()->format(Data::DATE_TIME_FORMAT),
+                'crm_expiration_time_id' => CrmExpirationTime::first()->id,
+                'expired_at'  => now()->addHour()->format(CrmData::DATE_TIME_FORMAT),
                 'start_at'    => (string) now(),
-                'start_time_id' => StartTime::first()->id,
-                'task_group_id' => TaskGroup::first()->id,
+                'crm_start_time_id' => CrmStartTime::first()->id,
+                'crm_task_group_id' => TaskGroup::first()->id,
                 'title'       => fake()->text(50),
             ]);
         } catch (\Exception $e) {

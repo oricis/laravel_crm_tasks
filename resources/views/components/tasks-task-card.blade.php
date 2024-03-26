@@ -8,7 +8,13 @@
 
                 <p class="mb-2">{{ $task->description }}</p>
 
-                <p>Started time: <strong class="text-gray-500">{{ $task->startTime->label }}</strong></p>
+                <p>Started time:
+                    @if ($task->startTime->label ?? null)
+                        <strong class="text-gray-500">{{ $task->startTime->label }}</strong>
+                    @else
+                        <strong class="text-red-600">This tasks hasn't a start time!</strong>
+                    @endif
+                </p>
                 <p>Time limit to complete:
                     <strong class="text-gray-500">{{ $task->expirationTime ? $task->expirationTime->label : 'without time limit' }}</strong>
                 </p>
@@ -40,6 +46,11 @@
     </div>
 
     <p class="flex justify-between mt-2 md:mt-3 bg-gray-200 p-1 md:p-2 md:py-3">
-        <span>Group:</span><strong> {{ $task->group->title }}</strong>
+        <span>Group:</span>
+        @if ($task->group->title ?? null)
+            <strong>{{ $task->group->title }}</strong>
+        @else
+            <strong class="text-red-600">This task hasn't a group !</strong>
+        @endif
     </p>
 </article>

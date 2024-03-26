@@ -3,15 +3,15 @@
 namespace App\Modules\CrmTasks\Console\Commands;
 
 use App\Models\User;
-use App\Modules\CrmTasks\Models\Task;
-use App\Modules\CrmTasks\Services\Actions\CreateUserTaskAction;
-use App\Modules\CrmTasks\Services\Times\StartTimeCheckerService;
-use App\Modules\CrmTasks\Services\Traits\PrepareUserTaskDataTrait;
+use App\Modules\CrmTasks\Models\CrmTask;
+use App\Modules\CrmTasks\Services\Actions\CreateCrmUserTaskAction;
+use App\Modules\CrmTasks\Services\Times\CrmStartTimeCheckerService;
+use App\Modules\CrmTasks\Services\Traits\PrepareCrmUserTaskDataTrait;
 use Illuminate\Console\Command;
 
 class CrmSetTasksCommand extends Command
 {
-    use PrepareUserTaskDataTrait;
+    use PrepareCrmUserTaskDataTrait;
 
 
     /**
@@ -33,7 +33,7 @@ class CrmSetTasksCommand extends Command
      */
     public function handle()
     {
-        $tasks = Task::query()
+        $tasks = CrmTask::query()
             ->where('start_at', '<=', (string) now())
             ->where('expired_at', '>=', (string) now())
             ->get();
@@ -41,11 +41,11 @@ class CrmSetTasksCommand extends Command
         foreach ($tasks as $task) {
             try {
                 $startTimeLabel = $task->startTime->label;
-                if ((new StartTimeCheckerService($startTimeLabel))->pass()) {
+                if ((new CrmStartTimeCheckerService($startTimeLabel))->pass()) {
                     foreach (User::get('id') as $user) {
                         $data = self::prepareUserTaskData($user->id, $task);
 
-                        (new CreateUserTaskAction($data))
+                        (new CreateCrmUserTaskAction($data))
                             ->create();
                     }
                 }

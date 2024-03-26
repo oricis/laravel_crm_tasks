@@ -2,12 +2,12 @@
 
 namespace App\Livewire\CrmTasks;
 
-use App\Modules\CrmTasks\Models\UserTask;
+use App\Modules\CrmTasks\Models\CrmUserTask;
 use Livewire\Component;
 
 class UserTaskCard extends Component
 {
-    public UserTask $task;
+    public CrmUserTask $task;
 
 
     public function render()

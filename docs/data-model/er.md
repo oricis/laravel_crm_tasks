@@ -4,33 +4,33 @@
 
 ## Table descriptions
 
-> expiration_times
+> crm_expiration_times
 
 Store the times where each task will end (as string options)
 
-> start_times
+> crm_start_times
 
 Store the times where each task will start (as string options)
 
-> task_groups
+> crm_task_groups
 
 Store the groups where the tasks can be grouped.
 
-> tasks
+> crm_tasks
 
-Store the "system tasks", tasks that will do assigned to the users
+Store the "system tasks", CrmTasks that will do assigned to the users
 in its programmed time.
 
-> time_filters
+> crm_time_filters
 
 This table isn't related with any other, only is used to store strings
 to show a selectable lists of options on tasks creation.
 
-> user_tasks
+> crm_user_tasks
 
 Store the tasks assigned to each user.
 
-> users
+> crm_users
 
 App users.
 
