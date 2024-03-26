@@ -1,6 +1,7 @@
 <?php
 
-use App\Models\Authorizations\Resource;
+declare(strict_types=1);
+
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Route;
 
