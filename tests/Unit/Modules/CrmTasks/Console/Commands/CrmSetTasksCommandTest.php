@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Modules\CrmTasks\Console\Commands;
 
-use App\Models\User;
 use App\Modules\CrmTasks\Models\CrmExpirationTime;
 use App\Modules\CrmTasks\Models\CrmStartTime;
 use App\Modules\CrmTasks\Models\CrmTask;
@@ -13,9 +12,12 @@ use App\Modules\CrmTasks\Models\CrmUserTask;
 use App\Modules\CrmTasks\Repositories\Data\CrmData;
 use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
+use Tests\Unit\Modules\CrmTasks\PrepareDataTrait;
 
 class CrmSetTasksCommandTest extends TestCase
 {
+    use PrepareDataTrait;
+
     private string $signature = 'crm:set-tasks';
 
 
@@ -23,32 +25,31 @@ class CrmSetTasksCommandTest extends TestCase
     {
         parent::setUp();
 
-        $this->assertTrue(CrmExpirationTime::exists());
-        $this->assertTrue(CrmStartTime::exists());
-        $this->assertTrue(TaskGroup::exists());
-        $this->assertTrue(User::exists());
+        if (! CrmExpirationTime::exists()) {
+            Artisan::call('migrate:fresh --seed');
+        }
     }
 
     public function testIfRunTheCommandAndGenerateUserTasks(): void
     {
-        $this->assertTrue($this->seedAnActiveTask());
-
+        $this->assertNotNull($this->seedTask());
+$this->seedAnActiveTask(); // BUG:
         $userTasksBefore = CrmUserTask::count();
         $this->assertEquals(0, Artisan::call($this->signature));
-        $this->assertTrue($userTasksBefore < UserTask::count());
+        $this->assertTrue($userTasksBefore < CrmUserTask::count());
     }
 
 
     private function seedAnActiveTask(): bool
     {
         try {
-            Task::create([
+            CrmTask::create([
                 'description' => fake()->text(90),
                 'crm_expiration_time_id' => CrmExpirationTime::first()->id,
                 'expired_at'  => now()->addHour()->format(CrmData::DATE_TIME_FORMAT),
                 'start_at'    => (string) now(),
                 'crm_start_time_id' => CrmStartTime::first()->id,
-                'crm_task_group_id' => TaskGroup::first()->id,
+                'crm_task_group_id' => CrmTaskGroup::first()->id,
                 'title'       => fake()->text(50),
             ]);
         } catch (\Exception $e) {

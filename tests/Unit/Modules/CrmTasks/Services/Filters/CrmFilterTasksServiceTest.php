@@ -9,6 +9,7 @@ use App\Modules\CrmTasks\Models\CrmTimeFilter;
 use App\Modules\CrmTasks\Models\CrmUserTask;
 use App\Modules\CrmTasks\Services\Filters\CrmFilterTasksService;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 
 class CrmFilterTasksServiceTest extends TestCase
@@ -22,7 +23,10 @@ class CrmFilterTasksServiceTest extends TestCase
     {
         parent::setUp();
 
-        $this->assertTrue(User::exists());
+        if (! User::exists()) {
+            Artisan::call('migrate:fresh --seed');
+        }
+
         $this->assertTrue(CrmUserTask::where('expired_at', '>', now())->exists());
         $this->assertNotNull($this->getUserWithTasksOnTheFuture());
 

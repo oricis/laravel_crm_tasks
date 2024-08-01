@@ -7,6 +7,7 @@ namespace Tests\Unit\Modules\CrmTasks\Services\Actions;
 use App\Models\User;
 use App\Modules\CrmTasks\Models\CrmUserTask;
 use App\Modules\CrmTasks\Services\Actions\UpdateCrmUserTaskAction;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
@@ -19,9 +20,11 @@ class UpdateCrmUserTaskActionTest extends TestCase
     {
         parent::setUp();
 
-        $this->assertTrue(User::exists());
-        $this->assertTrue(CrmUserTask::whereNull('ended_at')->exists());
+        if (! User::exists()) {
+            Artisan::call('migrate:fresh --seed');
+        }
 
+        $this->assertTrue(CrmUserTask::whereNull('ended_at')->exists());
         $this->userTask = CrmUserTask::whereNull('ended_at')->first();
 
         // Login as

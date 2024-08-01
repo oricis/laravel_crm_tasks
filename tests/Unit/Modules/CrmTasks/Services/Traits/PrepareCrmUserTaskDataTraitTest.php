@@ -10,6 +10,7 @@ use App\Modules\CrmTasks\Models\CrmTask;
 use App\Modules\CrmTasks\Models\CrmUserTask;
 use App\Modules\CrmTasks\Services\Times\CrmTimestampsService;
 use App\Modules\CrmTasks\Services\Traits\PrepareCrmUserTaskDataTrait;
+use Illuminate\Support\Facades\Artisan;
 use Tests\TestCase;
 use Tests\Unit\Modules\CrmTasks\PrepareDataTrait;
 
@@ -25,8 +26,13 @@ class PrepareCrmUserTaskDataTraitTest extends TestCase
     {
         parent::setUp();
 
-        $this->assertTrue(CrmTask::exists());
-        $this->assertTrue(User::exists());
+        if (! User::exists()) {
+            Artisan::call('migrate:fresh --seed');
+        }
+
+        if (!CrmTask::exists()) {
+            $this->seedTask();
+        }
     }
 
     public function testIfPrepareDataOkToCreateAnUserTask(): void

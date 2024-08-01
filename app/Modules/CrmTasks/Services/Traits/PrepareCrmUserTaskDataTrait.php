@@ -41,7 +41,11 @@ trait PrepareCrmUserTaskDataTrait
 
     public static function prepareUserTaskData(int $userId, CrmTask $task): array
     {
-        $startTimeLabel = CrmStartTime::find($task->start_time_id)->label;
+        if (is_null(CrmStartTime::find($task->crm_start_time_id))) {
+            notice('It isn\'t time to start, task ID: ' . $task->id);
+            return [];
+        }
+        $startTimeLabel = CrmStartTime::find($task->crm_start_time_id)->label;
         if (!(new CrmStartTimeCheckerService($startTimeLabel))->pass()) {
             notice('It isn\'t time to start: "' . $startTimeLabel . '"');
             return [];
@@ -49,7 +53,7 @@ trait PrepareCrmUserTaskDataTrait
 
         $startAt = (new CrmStartDatetimeService($startTimeLabel))->get();
         $expiredAt
-            = self::getExpirationTime($startAt, $task->expiration_time_id);
+            = self::getExpirationTime($startAt, $task->crm_expiration_time_id);
 
         $output = removeArrElementsByIndex(
             $task->toArray(),
