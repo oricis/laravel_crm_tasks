@@ -14,6 +14,7 @@ class HelpersServiceProvider extends ServiceProvider
     public function register()
     {
         require_once(app_path() . '/Helpers/Common/arrays.php');
+        require_once(app_path() . '/Helpers/Common/misc.php');
         require_once(app_path() . '/Helpers/Common/strings.php');
         require_once(app_path() . '/Helpers/Common/routes.php');
         require_once(app_path() . '/Helpers/Common/traces.php');

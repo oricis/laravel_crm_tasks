@@ -2,12 +2,12 @@
 
 namespace App\Modules\CrmTasks\Http\Controllers;
 
-use App\Modules\CrmTasks\Http\Requests\TaskFormRequest;
-use App\Modules\CrmTasks\Models\ExpirationTime;
-use App\Modules\CrmTasks\Models\StartTime;
-use App\Modules\CrmTasks\Models\Task;
-use App\Modules\CrmTasks\Models\TaskGroup;
-use App\Modules\CrmTasks\Services\Actions\CreateTaskAction;
+use App\Modules\CrmTasks\Http\Requests\CrmTaskFormRequest;
+use App\Modules\CrmTasks\Models\CrmExpirationTime;
+use App\Modules\CrmTasks\Models\CrmStartTime;
+use App\Modules\CrmTasks\Models\CrmTask;
+use App\Modules\CrmTasks\Models\CrmTaskGroup;
+use App\Modules\CrmTasks\Services\Actions\CreateCrmTaskAction;
 
 class CrmTaskController extends CrmTaskMainController
 {
@@ -15,16 +15,16 @@ class CrmTaskController extends CrmTaskMainController
     public function get()
     {
         return view('pages.tasks')
-            ->with('expirationTimes', ExpirationTime::get())
-            ->with('formAction', route('create_system_tasks'))
-            ->with('startTimes', StartTime::get())
-            ->with('taskGroups', TaskGroup::get())
-            ->with('tasks', Task::get());
+            ->with('expirationTimes', CrmExpirationTime::get())
+            ->with('formAction', route('create_crm_system_tasks'))
+            ->with('startTimes', CrmStartTime::get())
+            ->with('taskGroups', CrmTaskGroup::get())
+            ->with('tasks', CrmTask::get());
     }
 
-    public function create(TaskFormRequest $request)
+    public function create(CrmTaskFormRequest $request)
     {
-        return (new CreateTaskAction($request->validated()))->create()
+        return (new CreateCrmTaskAction($request->validated()))->create()
             ? $this->get()
             : $this->goBackWithError();
     }

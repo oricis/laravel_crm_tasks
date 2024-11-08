@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 $funcName = 'removeArrElementsByIndex';
 if (!function_exists($funcName)) {
     function removeArrElementsByIndex(array $arr, array $indexesToRemove): array

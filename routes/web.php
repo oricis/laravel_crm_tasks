@@ -26,25 +26,25 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get(
-        '/dashboard',
+        '/crm-dashboard',
         [CrmHomeController::class, 'home']
-    )->name('dashboard');
+    )->name('crm_dashboard');
 
     Route::get(
-        '/tasks',
+        '/crm_tasks',
         [CrmTaskController::class, 'get']
-    )->name('get_system_tasks');
+    )->name('get_crm_system_tasks');
     Route::post(
-        '/tasks',
+        '/crm_tasks',
         [CrmTaskController::class, 'create']
-    )->name('create_system_tasks');
+    )->name('create_crm_system_tasks');
 
     Route::get(
-        '/task-groups',
+        '/crm_task-groups',
         [CrmTaskGroupController::class, 'get']
-    )->name('get_task_groups');
+    )->name('get_crm_task_groups');
     Route::post(
-        '/task-groups',
+        '/crm_task-groups',
         [CrmTaskGroupController::class, 'create']
-    )->name('create_task_groups');
+    )->name('create_crm_task_groups');
 });

@@ -2,7 +2,7 @@
 
 namespace App\Livewire\CrmTasks;
 
-use App\Modules\CrmTasks\Services\Actions\UpdateUserTaskAction;
+use App\Modules\CrmTasks\Services\Actions\UpdateCrmUserTaskAction;
 use Livewire\Component;
 
 class CloseTask extends Component
@@ -14,7 +14,7 @@ class CloseTask extends Component
 
     public function close(): void
     {
-        if ($result = (new UpdateUserTaskAction($this->userTaskId))
+        if ($result = (new UpdateCrmUserTaskAction($this->userTaskId))
             ->close((string) now())) {
             logger('Closed user task ID: ' . $this->userTaskId);
             $this->endedAt = $result;

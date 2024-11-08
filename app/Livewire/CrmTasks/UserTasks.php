@@ -2,8 +2,8 @@
 
 namespace App\Livewire\CrmTasks;
 
-use App\Modules\CrmTasks\Models\TimeFilter;
-use App\Modules\CrmTasks\Services\Filters\FilterTasksService;
+use App\Modules\CrmTasks\Models\CrmTimeFilter;
+use App\Modules\CrmTasks\Services\Filters\CrmFilterTasksService;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -20,7 +20,7 @@ class UserTasks extends Component
 
     public function boot()
     {
-        $this->timeFilters = TimeFilter::get([
+        $this->timeFilters = CrmTimeFilter::get([
             'id',
             'label',
             'description',
@@ -41,7 +41,7 @@ class UserTasks extends Component
 
     public function updateTasks(): void
     {
-        $this->tasks = (new FilterTasksService($this->strFilter, $this->onlyOpen))
+        $this->tasks = (new CrmFilterTasksService($this->strFilter, $this->onlyOpen))
             ->get(Auth::user()->id);
     }
 }
